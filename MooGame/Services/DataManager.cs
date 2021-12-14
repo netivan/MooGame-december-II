@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using MooGame.Interfaces;
 
 namespace MooGame
 {
@@ -22,6 +24,8 @@ namespace MooGame
         {
             _fl.save(s, fileName);
         }
+
+
 
         /// <summary>
         /// Read the results of previous games from the file

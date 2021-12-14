@@ -3,28 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
-namespace MooGame
+namespace MooGame.Interfaces
 {
-    public interface IUserInterface 
+    public class ConsoleIO : IUserInterface
     {
-
-        void output(string s);
-
-        string input();
-
-    }
-
-      
-   public class ConsoleIO : IUserInterface
-{
-    public void output(string s)
-    {
+        public void output(string s)
+        {
             Console.ForegroundColor = ConsoleColor.DarkRed;
 
             Console.WriteLine(s);
 
-    }
+        }
 
 
         public string input()
@@ -33,6 +24,6 @@ namespace MooGame
             return Console.ReadLine();
         }
 
-}
+    }
 
 }

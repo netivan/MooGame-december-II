@@ -4,23 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MooGame.Interfaces;
+
+
 
 namespace MooGame
 {
     public static class GameSteps
-    {
-        //private static readonly IUserInterface _ui;
+    {        
 
-        //public static IUserInterface ui      // DIP in static classes 
-        //{
-        //    get { return _ui; }
-        //}
+        private static readonly IUserInterface _ui = new ConsoleIO();                                    
 
-
-        private static readonly IUserInterface _ui = new ConsoleIO();
-        public static string InsertPlayerName()
-
-
+     
+        public static string InsertPlayerName()                                 
         {
             _ui.output("Enter your user name:\n");
             string name = _ui.input();
@@ -60,8 +56,8 @@ namespace MooGame
             return nGuess;
         }
 
-
-        public static bool TheEndGame(int nGuess)
+        /// <summary> choose if to continue or end the game. The game ends only if it´s n </summary>
+        public static bool TheEndGame(int nGuess)                                                               
         {
             _ui.output("Correct, it took " + nGuess + " guesses\nContinue?");
             string answer = _ui.input();

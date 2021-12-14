@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
-namespace MooGame
+namespace MooGame.Interfaces
 {
-    public interface IFileInterface
-    {
-
-        public void save(string s, string fileName = "results.txt");
-        public StreamReader ReadFile(string fileName = "results.txt");
-
-    }
-
-    
     public class FileIO : IFileInterface
     {
-        public void save(string s, string fileName = "results.txt" )
+
+        public void save(string s, string fileName = "results.txt")
         {
             StreamWriter output = new StreamWriter(fileName, append: true);
             output.WriteLine(s);
@@ -31,15 +23,10 @@ namespace MooGame
 
             StreamReader input = new StreamReader(fileName);
 
+
             return input;
         }
 
 
     }
-
-
-    
-
-
-    
 }
