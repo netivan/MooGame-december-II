@@ -14,15 +14,31 @@ namespace MooGame
 {
 	 class MainClass 
 	{
-		public const bool IsDevelopment = false;         // IsDevelopment  = is under development         // true = In fase di sviluppo del progetto il codice da indovinare si vede
+		public const bool IsDevelopment = true;         // IsDevelopment  = is under development         // true = In fase di sviluppo del progetto il codice da indovinare si vede
 		public static void Main(string[] args)
 		{
 
+            var services = new ServiceCollection()
+                .AddSingleton<IUserInterface, ConsoleIO>()
+                .AddSingleton<IFileInterface, FileIO>()
+            .BuildServiceProvider();
 
-            GameList gameList = new GameList();
+            var ui = services.GetService<IUserInterface>();
+
+            var fi = services.GetService<IFileInterface>();
+
+
+
+
+            GameList gameList = new GameList(ui, fi);
+
+            GameSteps gameSteps = new GameSteps(ui);
+
+            DataManager dataManager = new DataManager(ui, fi);
+
             var Game = gameList.SelectGame();
 
-            string name = GameSteps.InsertPlayerName();
+            string name = gameSteps.InsertPlayerName();
 
 			while (!String.IsNullOrEmpty(name)) //Player name is required to play
 			{
@@ -30,19 +46,19 @@ namespace MooGame
 
                 string goal = GoalManager.makeGoal(Game.LenghtGoal, Game.MaxDigit, Game.MinDigit);     //xx
 
-                GameSteps.ShowMagicNumber(goal, IsDevelopment);
+                gameSteps.ShowMagicNumber(goal, IsDevelopment);
 
-				var nGuess = GameSteps.PlayTheGame(goal);
+				var nGuess = gameSteps.PlayTheGame(goal);
 
                 //DataManager.SaveTheGame(name + "#&#" + nGuess);
 
-                DataManager.SaveTheGame(name + "#&#" + nGuess, Game.FileName);    //xx
+                dataManager.SaveTheGame(name + "#&#" + nGuess, Game.FileName);    //xx
 
                 //DataManager.showTopList();
 
-                DataManager.showTopList(Game.FileName);       //xx
+                dataManager.showTopList(Game.FileName);       //xx
 
-                if ( GameSteps.TheEndGame(nGuess) == false) break;
+                if ( gameSteps.TheEndGame(nGuess) == false) break;
 			}	
 				
 		}

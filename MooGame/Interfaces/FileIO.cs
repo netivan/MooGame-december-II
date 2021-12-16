@@ -27,6 +27,22 @@ namespace MooGame.Interfaces
             return input;
         }
 
+        // we read the file txt created in bin
+        public StreamReader ReadGamesList()
+        {
+            try
+            {
+
+               return new StreamReader("gamelist.txt");
+
+            }
+            catch
+            {
+                return null;
+
+            }
+        } 
+
 
     }
 }

@@ -13,6 +13,8 @@ namespace MooGame
         public void save(string s, string fileName = "results.txt");
         public StreamReader ReadFile(string fileName = "results.txt");
 
+        public StreamReader ReadGamesList();
+
     }
 
     

@@ -13,16 +13,25 @@ namespace MooGame
     /// </summary>
     public class DataManager 
     {
-        private static readonly IFileInterface _fl = new FileIO();
-        private static readonly IUserInterface _ui = new ConsoleIO();
+        private readonly IUserInterface _ui;
+
+        private readonly IFileInterface _fi;
+
+        public DataManager(IUserInterface ui, IFileInterface fi)       // Constructor
+        {
+            _ui = ui;
+
+            _fi = fi;
+        }
+
         /// <summary>
         /// Save the game result and player name to file
         /// </summary>
         /// <param name="s">game result and player name</param>
         /// <param name="fileName"></param>
-        public static void SaveTheGame(string s, string fileName = "results.txt")
+        public void SaveTheGame(string s, string fileName = "results.txt")
         {
-            _fl.save(s, fileName);
+            _fi.save(s, fileName);
         }
 
 
@@ -32,7 +41,7 @@ namespace MooGame
         /// 
         /// </summary>
         /// <param name="fileName">Name of the file where the data is located</param>
-        public static void showTopList(string fileName = "results.txt")
+        public void showTopList(string fileName = "results.txt")
         {
 
             var results = CreateListFromFile(fileName);
@@ -49,9 +58,9 @@ namespace MooGame
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        private static List<PlayerData>CreateListFromFile(string fileName)
+        private  List<PlayerData>CreateListFromFile(string fileName)
         {
-            var input = _fl.ReadFile(fileName);
+            var input = _fi.ReadFile(fileName);
             List<PlayerData> results = new List<PlayerData>();
             string line;
             while ((line = input.ReadLine()) != null)

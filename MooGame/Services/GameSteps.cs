@@ -10,20 +10,26 @@ using MooGame.Interfaces;
 
 namespace MooGame
 {
-    public static class GameSteps
+    public  class GameSteps
     {        
 
-        private static readonly IUserInterface _ui = new ConsoleIO();                                    
+        private  readonly IUserInterface _ui;
 
-     
-        public static string InsertPlayerName()                                 
+        public GameSteps(IUserInterface ui)       // Constructor
+        {
+            _ui = ui;
+       
+        }
+
+
+        public  string InsertPlayerName()                                 
         {
             _ui.output("Enter your user name:\n");
             string name = _ui.input();
             return name;
         }
 
-        public static void ShowMagicNumber(string goal, bool show = true)
+        public  void ShowMagicNumber(string goal, bool show = true)
         {
             _ui.output("New game:\n");
             if(show == true)
@@ -36,7 +42,7 @@ namespace MooGame
             }
         }
      
-        public static int PlayTheGame(string goal)
+        public  int PlayTheGame(string goal)
         {
             string guess = _ui.input();
             int nGuess = 1;
@@ -57,7 +63,7 @@ namespace MooGame
         }
 
         /// <summary> choose if to continue or end the game. The game ends only if it´s n </summary>
-        public static bool TheEndGame(int nGuess)                                                               
+        public  bool TheEndGame(int nGuess)                                                               
         {
             _ui.output("Correct, it took " + nGuess + " guesses\nContinue?");
             string answer = _ui.input();

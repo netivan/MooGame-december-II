@@ -17,18 +17,58 @@ namespace MooGame.NewGames
         //    _ui = ui;
         //}
 
-        private static readonly IUserInterface _ui = new ConsoleIO();
+        private readonly IUserInterface _ui;
 
+        private readonly IFileInterface _fi;
+
+        public GameList(IUserInterface ui, IFileInterface fi)       // Constructor
+        {
+            _ui = ui;
+
+            _fi = fi;
+        }
 
         public List<GameModel> gameList = new List<GameModel>();
 
 
-        public GameList()
+        //public GameList()
+        //{
+        //    gameList.Add(new GameModel { id = 1, name = "Bulls & Cows", description = "The player must guess 4 digits", FileName = "resultGame1.txt", LenghtGoal = 4, MaxDigit = 9, MinDigit = 0 });
+        //    gameList.Add(new GameModel { id = 2, name = "Battle Bulls & Cows", description = "The player must guess 3 digits on 8 digits", FileName = "resultGame2.txt", LenghtGoal = 3, MaxDigit = 8, MinDigit = 0 });
+        //    gameList.Add(new GameModel { id = 3, name = "Battle of Cows", description = "The player must guess .......", FileName = "resultGame3.txt", LenghtGoal = 3, MaxDigit = 8, MinDigit = 0 });
+        //}
+
+        public List<GameModel> ReadGameList()
         {
-            gameList.Add(new GameModel { id = 1, name = "Bulls & Cows", description = "The player must guess 4 digits", FileName = "resultGame1.txt", LenghtGoal = 4, MaxDigit = 9, MinDigit = 0 });
-            gameList.Add(new GameModel { id = 2, name = "Battle Bulls & Cows", description = "The player must guess 3 digits on 8 digits", FileName = "resultGame2.txt", LenghtGoal = 3, MaxDigit = 8, MinDigit = 0 });
-            gameList.Add(new GameModel { id = 3, name = "Battle of Cows", description = "The player must guess .......", FileName = "resultGame3.txt", LenghtGoal = 3, MaxDigit = 8, MinDigit = 0 });
+            List<GameModel> gameList = new List<GameModel>();
+
+            var input = _fi.ReadGamesList();
+
+            if(input != null)
+            { 
+
+            string line;
+            while((line = input.ReadLine())!= null)
+            {
+                string[] game = line.Split(";");
+
+                if(game.Length == 7)
+                    {
+                        try
+                        {
+                            gameList.Add(new GameModel { id = int.Parse(game[0]), name = game[1], description = game[2], FileName = game[3], LenghtGoal = int.Parse(game[4]), MaxDigit = int.Parse(game[5]), MinDigit = int.Parse(game[6]) });
+                        }
+                        catch { }
+                        }                 
+
+            }        
+                   
+            }
+              return gameList;
         }
+
+
+
 
         public void PrintGame(GameModel game)
         {
@@ -36,21 +76,24 @@ namespace MooGame.NewGames
         }
 
         public GameModel SelectGame()
-        { 
-            string d = "A";
-            while (true)
+        {
+            //string d = "A";
+            //while (true)
+            //{
+            //    _ui.output("select: single game A or multi game B");
+            //    d = _ui.input();
+            //    if (d is not null && (d == "A" || d == "B")) break;
+            //}
+
+            //if (d == "A") return gameList.FirstOrDefault(x => x.id == 1);
+
+
+            var gameList = ReadGameList();
+
+            if(gameList.Count() < 1)
             {
-                _ui.output("select: single game A or multi game B");
-                 d =_ui.input();
-                if (d is not null && (d == "A" || d == "B")) break;
+                return new GameModel { id = 1, name = "Bulls & Cows", description = "The player must guess 4 digits", FileName = "resultGame1.txt", LenghtGoal = 4, MaxDigit = 9, MinDigit = 0 }; 
             }
-
-            if(d == "A") return  gameList.FirstOrDefault(x => x.id == 1);
-
-
-
-
-
             foreach (var g in gameList)
             {
                 _ui.output($"Game {g.id}: {g.name}");
